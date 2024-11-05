@@ -1,0 +1,625 @@
+<!-- pages/team_artist.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Awesome - s2s</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        
+        .pre-menu {
+            margin-top: 120px; 
+            text-align: center; 
+        }
+
+        .menu-button {
+            background-color: #1d0a85; 
+            color: #fff;
+            padding: 15px 30px;
+            margin: 10px;
+            border: 2px solid #0a0e0c;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .menu-button:hover {
+            background-color: #9e0885; 
+        }
+
+        .drawing-list {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #2e2368; 
+            border-radius: 5px;
+            border: none;
+        }
+
+        .drawing-item {
+            display: flex;
+            justify-content: space-around; /* Arrange buttons horizontally */
+            align-items: center;
+            margin: 10px auto; /* Centering the container */
+            padding: 10px;
+            background-color: #1d0a85;
+            border: 2px solid #0a0e0c;
+            border-radius: 5px;
+            color: #fff; /* Text color */
+            width: fit-content; /* Adjust width to fit the content */
+        }
+
+        .drawing-item span {
+            font-weight: bold;
+        }
+
+        .modal {
+            display: flex; /* Center content */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            position: fixed; /* Full screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(214, 12, 12, 0.5); /* Semi-transparent black */
+            z-index: 1000; /* High stacking order */
+        }
+
+        .modal-content {
+            background-color: #421399;
+            margin: 0% auto; /* 15% from the top and centered */
+            padding:25px;
+            border: 1px solid #888;
+            width: 100%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .drawing-controls {
+            display: none; /* Initially hidden */
+            margin: 10px;
+        }
+
+        .drawing-controls label, .drawing-controls select, .drawing-controls input {
+            margin-right: 10px;
+        }
+
+        .drawing-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #24cf0d; /* Modal background color */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+        }
+
+        /* Modal content padding */
+        .modal-content {
+            max-width: 800px; /* Set a max width for the modal */
+            margin: 0 auto; /* Center modal content */
+            padding: 20px; /* Add padding to the modal */
+            box-sizing: border-box; /* Ensure padding is included in width */
+        }
+
+        /* Drawing toolbar styles */
+        .drawing-toolbar {
+            display: flex;
+            gap: 10px; /* Space between toolbar elements */
+            padding: 10px; /* Padding inside the toolbar */
+            background-color: #f0f0f0; /* Toolbar background color */
+            border-bottom: 1px solid #ccc; /* Optional: border at the bottom of the toolbar */
+            box-sizing: border-box; /* Include padding in width */
+            width: 100%; /* Full width of the modal */
+        }
+
+        /* Drawing canvas styles */
+        #drawingCanvas {
+            border: 1px solid #000;
+            background-color: #fff;
+            display: block; /* Ensure it’s displayed when needed */
+            width: auto; /* Adjust width */
+            height: 450px; /* Set a desired height */
+            margin: 10px auto; /* Center the canvas with margins */
+            box-sizing: border-box; /* Include padding in width/height */
+        }
+
+        .drawing-item {
+            display: flex;
+            justify-content: space-around; /* Arrange buttons horizontally */
+            align-items: center;
+            margin: 10px;
+            padding: 10px;
+            background-color: #1d0a85;
+            border: 2px solid #0a0e0c;
+            border-radius: 5px;
+            color: #fff; /* Text color */
+        }
+
+        .drawing-item button {
+            background-color: #2e2368; /* Button color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex: 1; /* Ensure all buttons are the same size */
+            margin: 0 5px; /* Space between buttons */
+        }
+
+        .drawing-item button:hover {
+            background-color: #131212; /* Button hover color */
+        }
+
+        /* Reveal Button Styles */
+        .reveal-button-inactive {
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .reveal-button-active {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        /* Reveal Canvas */
+        #revealCanvas {
+            width: auto; /* Let width adjust */
+            height: auto; /* Let height adjust */
+            max-width: 600px; /* Set a max width */
+            max-height: 400px; /* Set a max height */
+            border: 2px solid #333; /* Border for visibility */
+            background-color: #fff; /* Canvas background color */
+            margin: 20px; /* Add margins for spacing */
+        }
+
+</style>
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Team Artist</h1>
+    </div>
+
+    <div class="top-left-square">
+        <img src="../images/leftcorner.png" alt="Logo Placeholder" class="corner-image">
+    </div>
+
+    <div class="top-right-square">
+        <img src="../images/rightcorner.png" alt="Logo Placeholder" class="corner-image">
+    </div>
+    
+    <div class="header">
+        <img src="../images/teamartist.png" alt="JUSTUS Title" class="header-image">
+    </div>
+    
+   
+    <div class="sidebar">
+        <div class="button-container">
+            <a href="../index.html" class="button">Home</a>
+            <a href="1_solo_artist.html" class="button">Solo Artist</a>
+            <a href="2_team_artist.html" class="button">Team Artist</a>
+            <a href="3_imagination_reality.html" class="button">Imagination Reality</a>
+            <a href="4_show_off.html" class="button">Show Off</a>
+            <a href="5_challenges.html" class="button">Challenges</a>
+            <a href="6_communication.html" class="button">Communication</a>
+            <a href="7_archive.html" class="button">Archive</a>
+        </div>
+    </div>
+
+    <div class="sidebar-right"></div> 
+
+    <div class="background"></div> 
+
+    
+    <div class="content">
+        <!-- 1. Pre-Menu Section -->
+        <div class="pre-menu">
+            <h1>Team Artist</h1>
+            <label for="username">Enter your name:</label>
+            <input type="text" id="username" placeholder="Your name">
+    
+            <!-- 1a. Menu Buttons -->
+            <div>
+                <button class="menu-button" id="createButton">Create Drawing</button>
+                <button class="menu-button" id="findButton">Find a Drawing</button>
+            </div>
+    
+            <!-- 1b. Available Drawings List -->
+            <div id="drawingList" class="drawing-list" style="display: none;">
+                <h2>Available Drawings</h2>
+                <div class="drawing-item" onclick="joinDrawing(1)"><span>HEAD</span> | <span>BODY</span> | <span>LEGS</span></div>
+                <div class="drawing-item" onclick="joinDrawing(2)"><span>HEAD</span> | <span>BODY</span> | <span>LEGS</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 2. Drawing Modal Section -->
+    <div class="drawing-modal" id="drawingModal" style="display: none;">
+        <div class="modal-content">
+            <h2>Drawing Area</h2>
+            <span class="close" id="closeModal">&times;</span>
+            
+            <!-- 2a. Drawing Toolbar -->
+            <div class="drawing-toolbar" id="drawingToolbar">
+                <input type="color" id="brushColor" value="#000000">
+                <input type="range" id="brushSize" min="1" max="50" value="5">
+                <button id="clearCanvas">Clear</button>
+                <button id="doneButton">Done</button>
+            </div>
+            
+            <!-- 2b. Drawing Canvas -->
+            <canvas id="drawingCanvas" width="1000" height="800"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        // 3. Initialize Variables
+        const drawings = [
+            { id: 1, parts: { head: null, body: null, legs: null } },
+            { id: 2, parts: { head: null, body: null, legs: null } }
+        ];
+        const savedDrawings = {};
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentDrawingId = null;
+        let currentPart = null;
+        let isDrawing = false;
+    
+        // 4. Utility Function: Get Mouse Position on Canvas
+        function getMousePos(event) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (event.clientX - rect.left) * (canvas.width / rect.width),
+                y: (event.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+    
+        // 5. Canvas Drawing Event Listeners
+        canvas.addEventListener('mousedown', (event) => {
+            isDrawing = true;
+            const pos = getMousePos(event);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        });
+    
+        canvas.addEventListener('mouseup', () => {
+            isDrawing = false;
+            ctx.closePath();
+        });
+    
+        canvas.addEventListener('mousemove', (event) => {
+            if (isDrawing) {
+                const pos = getMousePos(event);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.strokeStyle = document.getElementById('brushColor').value;
+                ctx.lineWidth = document.getElementById('brushSize').value;
+                ctx.stroke();
+            }
+        });
+    
+        // 6. Clear Canvas Button Event
+        document.getElementById('clearCanvas').addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    
+        // 7. Display Available Drawings Function
+        function displayAvailableDrawings() {
+        const drawingList = document.getElementById('drawingList');
+        drawingList.innerHTML = '';
+        drawingList.style.display = 'block';
+
+        drawings.forEach(drawing => {
+            const drawingContainer = document.createElement('div');
+            drawingContainer.className = 'drawing-item';
+            drawingContainer.style.border = '2px solid #0a0e0c';
+            drawingContainer.style.margin = '10px auto';
+
+            // 7a. Part Buttons
+            const headButton = createPartButton(drawing, 'head', drawing.parts.head || 'Head');
+            const bodyButton = createPartButton(drawing, 'body', drawing.parts.body || 'Body');
+            const legsButton = createPartButton(drawing, 'legs', drawing.parts.legs || 'Legs');
+
+            drawingContainer.appendChild(headButton);
+            drawingContainer.appendChild(bodyButton);
+            drawingContainer.appendChild(legsButton);
+
+            // 7b. Reveal Button with active/inactive styles
+            const revealButton = document.createElement('button');
+            revealButton.textContent = 'Reveal';
+            revealButton.disabled = !(drawing.parts.head && drawing.parts.body && drawing.parts.legs); // Only enabled if all parts are filled
+            revealButton.className = revealButton.disabled ? 'reveal-button-inactive' : 'reveal-button-active';
+            revealButton.onclick = () => revealDrawing(drawing.id);
+
+            drawingContainer.appendChild(revealButton);
+            drawingList.appendChild(drawingContainer);
+        });
+    }
+    
+        // 8. Create Part Button Function
+        function createPartButton(drawing, part, label) {
+            const button = document.createElement('button');
+            button.textContent = label;
+            button.style.flex = '1';
+            button.style.margin = '0 5px';
+            button.onclick = () => openDrawingCanvas(drawing.id, part);
+            return button;
+        }
+    
+        // 9. Open Drawing Canvas Function
+        function openDrawingCanvas(drawingId, part) {
+            currentDrawingId = drawingId;
+            currentPart = part;
+    
+            const username = document.getElementById('username').value;
+            if (!username) {
+                alert('Please enter your name to join the drawing.');
+                return;
+            }
+    
+            // Load saved drawing if available
+            const savedImage = savedDrawings[drawingId] && savedDrawings[drawingId][part];
+            if (savedImage) {
+                const img = new Image();
+                img.src = savedImage;
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                };
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+    
+            document.getElementById('drawingModal').style.display = 'block';
+        }
+    
+        // 10. Save Drawing on 'Done' Button Click
+        document.getElementById('doneButton').onclick = function() {
+            const dataUrl = canvas.toDataURL();
+            if (!savedDrawings[currentDrawingId]) savedDrawings[currentDrawingId] = {};
+            savedDrawings[currentDrawingId][currentPart] = dataUrl;
+    
+            // Update parts with username
+            const selectedDrawing = drawings.find(d => d.id === currentDrawingId);
+            const username = document.getElementById('username').value;
+            selectedDrawing.parts[currentPart] = username;
+    
+            displayAvailableDrawings();
+            document.getElementById('drawingModal').style.display = 'none';
+        };
+    
+        // 11. Reveal Drawing Function
+        function revealDrawing(drawingId) {
+        const drawing = drawings.find(d => d.id === drawingId);
+        if (!drawing) return;
+
+        const headImageSrc = savedDrawings[drawingId]?.head;
+        const bodyImageSrc = savedDrawings[drawingId]?.body;
+        const legsImageSrc = savedDrawings[drawingId]?.legs;
+
+        // Create the reveal canvas dynamically
+        const revealCanvas = document.createElement('canvas');
+        revealCanvas.width = 500;
+        revealCanvas.height = 500;
+        const revealCtx = revealCanvas.getContext('2d');
+
+        document.body.appendChild(revealCanvas);  // Append to body for now; can be positioned as needed
+
+        // Load images for each part and draw on canvas
+        if (headImageSrc) {
+            const headImage = new Image();
+            headImage.onload = () => revealCtx.drawImage(headImage, 0, 0, revealCanvas.width, revealCanvas.height / 3);
+            headImage.src = headImageSrc;
+        }
+
+        if (bodyImageSrc) {
+            const bodyImage = new Image();
+            bodyImage.onload = () => revealCtx.drawImage(bodyImage, 0, revealCanvas.height / 3, revealCanvas.width, revealCanvas.height / 3);
+            bodyImage.src = bodyImageSrc;
+        }
+
+        if (legsImageSrc) {
+            const legsImage = new Image();
+            legsImage.onload = () => revealCtx.drawImage(legsImage, 0, (2 * revealCanvas.height) / 3, revealCanvas.width, revealCanvas.height / 3);
+            legsImage.src = legsImageSrc;
+        }
+    }
+    // 12. Button Event Listeners
+    document.getElementById('createButton').onclick = displayAvailableDrawings;
+    document.getElementById('findButton').onclick = displayAvailableDrawings;
+    document.getElementById('closeModal').onclick = () => {
+        document.getElementById('drawingModal').style.display = 'none';
+    };
+
+    function revealDrawing(drawingId) {
+    const drawing = drawings.find(d => d.id === drawingId);
+    if (!drawing) return;
+
+    // Create a popup for entering artist names
+    const namePopup = document.createElement('div');
+    namePopup.className = 'name-popup';
+    namePopup.style.position = 'fixed';
+    namePopup.style.top = '50%';
+    namePopup.style.left = '50%';
+    namePopup.style.transform = 'translate(-50%, -50%)';
+    namePopup.style.padding = '20px';
+    namePopup.style.backgroundColor = '#fff';
+    namePopup.style.border = '2px solid #333';
+    namePopup.style.zIndex = '2000'; // Higher than the modal
+
+    // Create input fields for artist names
+    const headInput = document.createElement('input');
+    headInput.placeholder = 'Enter Head Artist Name';
+    headInput.style.display = 'block';
+    headInput.style.marginBottom = '10px';
+
+    const bodyInput = document.createElement('input');
+    bodyInput.placeholder = 'Enter Body Artist Name';
+    bodyInput.style.display = 'block';
+    bodyInput.style.marginBottom = '10px';
+
+    const legsInput = document.createElement('input');
+    legsInput.placeholder = 'Enter Legs Artist Name';
+    legsInput.style.display = 'block';
+    legsInput.style.marginBottom = '10px';
+
+    // Create a save button
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Save Names';
+    saveButton.onclick = () => {
+        drawing.headArtist = headInput.value || 'Unknown';
+        drawing.bodyArtist = bodyInput.value || 'Unknown';
+        drawing.legsArtist = legsInput.value || 'Unknown';
+        document.body.removeChild(namePopup);
+        displayRevealCanvas(drawingId); // Call the function to display the reveal
+    };
+
+    // Append elements to the popup
+    namePopup.appendChild(headInput);
+    namePopup.appendChild(bodyInput);
+    namePopup.appendChild(legsInput);
+    namePopup.appendChild(saveButton);
+
+    // Append the popup to the body
+    document.body.appendChild(namePopup);
+}
+
+function displayRevealCanvas(drawingId) {
+    const drawing = drawings.find(d => d.id === drawingId);
+    if (!drawing) return;
+
+    // Create a modal container for the reveal canvas
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    modal.style.zIndex = '1000';
+
+    // Create a new canvas to stack the drawings as a single character
+    const revealCanvas = document.createElement('canvas');
+    revealCanvas.width = 400;  // Adjust as needed
+    revealCanvas.height = 500; // Adjust as needed
+    const revealCtx = revealCanvas.getContext('2d');
+
+    // Style the reveal canvas
+    revealCanvas.style.border = '20px solid #333'; // Main border
+    revealCanvas.style.backgroundColor = '#ffffff';
+    revealCanvas.style.margin = '20px';
+
+    // Close button
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px';
+    closeButton.onclick = () => {
+        document.body.removeChild(modal);
+    };
+
+    // Append the close button to the modal
+    modal.appendChild(closeButton);
+    modal.appendChild(revealCanvas); // Append the canvas to the modal
+
+    // Function to draw each part with connection outlines
+    const drawPart = (part, yOffset, isFinal) => {
+        const img = new Image();
+        img.onload = () => {
+            if (isFinal) {
+                revealCtx.drawImage(img, 0, yOffset, revealCanvas.width, revealCanvas.height / 3);
+            } else {
+                // Draw a semi-transparent outline for connection points
+                revealCtx.globalAlpha = 0.5; // Set transparency for outlines
+                revealCtx.drawImage(img, 0, yOffset, revealCanvas.width, revealCanvas.height / 3);
+                revealCtx.globalAlpha = 1.0; // Reset transparency
+            }
+            // Optionally, draw connection points or outlines
+            drawConnectionOutline(yOffset);
+        };
+        img.src = savedDrawings[drawingId]?.[part];
+    };
+
+    // Draw each part
+    drawPart('head', 0, false); // Draw head outline
+    drawPart('body', revealCanvas.height / 3, false); // Draw body outline
+    drawPart('legs', (2 * revealCanvas.height) / 3, true); // Draw legs normally
+
+    // Draw the tick border/frame
+    drawFrame(revealCtx, revealCanvas.width, revealCanvas.height); // Just for the tick frame
+
+    // Append the modal to the body to make it visible
+    document.body.appendChild(modal);
+
+    // Draw the names below the canvas
+    drawNamesBelowFrame(modal, drawing); // Draw names below the canvas frame
+}
+
+// Function to draw a connection outline
+function drawConnectionOutline(yOffset) {
+    const ctx = revealCtx;
+    ctx.strokeStyle = '#FF0000'; // Color for the connection outline
+    ctx.lineWidth = 5;
+
+    // Draw a connection line or shape (example: neck connection)
+    ctx.beginPath();
+    ctx.moveTo(200, yOffset + 100); // Example connection point (adjust as necessary)
+    ctx.lineTo(200, yOffset + 130); // Draw a line to simulate connection
+    ctx.stroke();
+}
+
+// Function to draw the tick border/frame
+function drawFrame(ctx, width, height) {
+    ctx.strokeStyle = '#FFCC00'; // Yellow color for the frame
+    ctx.lineWidth = 15;
+    ctx.strokeRect(0, 0, width, height);
+}
+
+// Function to draw names below the canvas frame
+function drawNamesBelowFrame(modal, drawing) {
+    const names = [
+        `Head: ${drawing.headArtist}`, 
+        `Body: ${drawing.bodyArtist}`, 
+        `Legs: ${drawing.legsArtist}`
+    ];
+
+    const nameContainer = document.createElement('div');
+    nameContainer.style.position = 'absolute';
+    nameContainer.style.bottom = 'calc(30px + 10px)'; // Position below the canvas
+    nameContainer.style.width = '100%';
+    nameContainer.style.textAlign = 'center';
+    nameContainer.style.color = '#FFD700'; // Goldish color
+    nameContainer.style.fontSize = '16px';
+    nameContainer.style.fontWeight = 'bold';
+    nameContainer.innerText = names.join(' | '); // Join names with " | "
+
+    modal.appendChild(nameContainer);
+}
+</script>
+
+<script src="../script.js"></script>
+
+</body>
+</html>
