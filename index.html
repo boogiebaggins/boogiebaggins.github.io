@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Awesome - Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .header {
+            background-color: #2d302e;
+            color: #162423;
+            height: 100px;
+            position: fixed;
+            top: 0;
+            left: 150px; /* Ensures header starts at the very left */
+            right: 150px; /* Ensures header ends at the very right */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+      /* Adjust header-image to fill the header */
+      .header-image {
+       width: 100%; /* Full width of the header */
+       height: 100%; /* Full height of the header */
+       object-fit: cover; /* Ensure it fills the header area while keeping aspect ratio */
+   }
+
+   .content {
+            margin-top: 120px; /* Space for fixed header */
+            text-align: center; /* Center align text */
+        }
+    </style>
+
+</head>
+<body>
+    <div class="top-left-square">
+        <img src="/images/leftcorner.png" alt="Logo Placeholder" class="corner-image">
+    </div>
+
+    <div class="top-right-square">
+        <img src="/images/rightcorner.png" alt="Logo Placeholder" class="corner-image">
+    </div>
+    
+    <div class="header">
+        <img src="/images/home.png" alt="JUSTUS Title" class="header-image">
+    </div>
+
+ 
+   
+    <div class="sidebar">
+        <div class="button-container">
+            <a href="/index.html" class="button">Home</a>
+            <a href="pages/1_solo_artist.html" class="button">Solo Artist</a>
+            <a href="pages/2_team_artist.html" class="button">Team Artist</a>
+            <a href="pages/3_imagination_reality.html" class="button">Imagination Reality</a>
+            <a href="pages/4_show_off.html" class="button">Show Off</a>
+            <a href="pages/5_Challenges.html" class="button">Challenges</a>
+            <a href="pages/6_communication.html" class="button">Communication</a>
+            <a href="pages/7_archive.html" class="button">Archive</a>
+        </div>
+    </div>
+
+    <div class="sidebar-right"></div> <!-- Right sidebar without buttons -->
+
+    <div class="background"></div> <!-- Background layer filling remaining space -->
+
+    <div class="content">
+        <h2>Welcome to The Awesome!</h2>
+        <p>This is the home page. Content will be loaded here based on your selection.</p>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
